@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>Template</title>
+        <style>
+            .heading {
+                font-size: "1rem";
+                color: "blue";
+            }
+        </style>
+    </head>
+    <body>
+        <img src="{{logo}}" width="1" height="1">
+        <h1>Company Name:- {{companyname}}  |  Audit:- {{auditname}}</h1>
+        <h1>Audit Observations</h1>
+        
+        {% for i in jsondf %}
+            <!--h2>{{loop.index}}: </h2-->
+            {% set outerindex = loop.index %}
+            <h2>{{outerindex}}:  Audit_Area: {{i["Audit_Area"]}}  |  Heading: {{i["Heading"]}}</h2>
+            {% for key,value in i.items() %}
+            <div>
+                
+                {% if key != "Zchild" %}
+                    {{pass}}
+                <!--h2>
+                    {% set keys = value %}
+                    {{key}}: {{value}}
+                </h2-->
+                {%else%}
+                    <!--h2>{{ outerindex }}: {{keys}}</h2-->
+                    {% for i in value %}
+                        <h3>{{outerindex}}.{{loop.index}}:</h3>
+                        {% for subkey,subvalue in i.items() %}
+                            {% if subkey == "Audit_Area" or subkey == "Heading" or subkey == "id" %}
+                                {{pass}}
+                            {%else%}
+                                <p><strong>{{subkey}}</strong>:- {{subvalue}}</p>
+                            {% endif %}
+                            {% endfor %}
+                        <br />
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% endfor %}
+            <br />
+        {% endfor %}
+    </body>
+</html>

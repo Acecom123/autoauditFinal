@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Template</title>
+        <style>
+            .heading {
+                font-size: "1rem";
+                color: "blue";
+            }
+        </style>
+    </head>
+    <body>
+        <img src="{{logo}}" width="1" height="1">
+        <h1>Company Name:- {{companyname}}  |  Audit:- {{auditname}}</h1>
+        <h1>Audit Observations</h1>
+        {% set vars = {'prev_audit': ""} %}
+        {% set vars2 = {'count': 0} %}
+        {% set vars3 = {'count': 1} %}
+        {% for i in jsondf %}
+            {% set outerindex = loop.index %}
+            {% if vars.prev_audit != i["Audit_Area"] %}
+                {% if vars.update({'prev_audit': i["Audit_Area"]}) %} {% endif %}
+                {% if vars2.update({'count': (vars2.count + 1)}) %} {% endif %}
+                {% if vars3.update({'count': 1}) %} {% endif %}
+                <h2>{{vars2.count}}:  Audit_Area: {{i["Audit_Area"]}}</h2>
+            {% else %}
+                {% if vars3.update({'count': (vars3.count + 1)}) %} {% endif %}
+            {% endif %}
+            {% set outerindex = loop.index %}
+            <h2>{{vars2.count}}.{{vars3.count}}:  Heading: {{i["Heading"]}}</h2>  
+            {% for key,value in i.items() %}
+            <div>
+                {% if key != "Zchild" %}
+                    {{pass}}
+                {%else%}
+                    {% for i in value %}
+                        <h2>{{vars2.count}}.{{vars3.count}}.{{loop.index}}:</h2>
+                        {% for subkey,subvalue in i.items() %}
+                            {% if subkey == "Audit_Area" or subkey == "Heading" or subkey == "id" %}
+                                {{pass}}
+                            {%else%}
+                                <p><strong>{{subkey}}</strong>:- {{subvalue}}</p>
+                            {% endif %}
+                            {% endfor %}
+                        <br />
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% endfor %}
+            <br />
+        {% endfor %}
+    </body>
+</html>

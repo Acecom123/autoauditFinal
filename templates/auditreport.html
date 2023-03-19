@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Template</title>
+    </head>
+    <body>
+        <img src="{{logo}}" width="1" height="1">
+        <h1> Company Name:- {{companyname}} | Audit:- {{auditname}}</h1>
+        <h1> Audit Summary</h1>
+
+        {% for i in jsondf %}
+            <h1>{{loop.index}}:</h1>
+            
+            {% for key,value in i.items() %}
+            <div>
+                <p><strong>{{key}}</strong>:- {{value}}</p>
+            </div>
+            {% endfor %}
+            <br />
+        {% endfor %}
+    </body>
+</html>
